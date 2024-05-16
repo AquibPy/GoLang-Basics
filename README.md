@@ -131,3 +131,15 @@ We can create a pointer by using the address of (&) operator on a variable, whic
 Pointers are useful in Go because they let us modify values more efficiently for large data structures like slices, maps and channels that are passed by reference instead of copying by value. This avoids expensive copies of large amounts of data.
 
 So in summary, pointers allow passing references to data instead of copies, improving performance for large or complex values.
+
+## Arrays
+
+Arrays in Go are fixed-length sequences of elements of the same type. Some key properties of arrays in Go include:
+
+    - The length is part of the array's type, so [5]int and [10]int are different types. Arrays must be initialized to a fixed length.
+
+    - You can declare and initialize an array like var a [5]int or a := [5]int{1, 2, 3, 4, 5}. Each element is initialized to the zero value by default. 
+
+    - Unlike slices, arrays are values and can be directly assigned or passed to functions. However, their size is immutable so they cannot be appended to or resized like slices.
+
+    - Common array operations include accessing elements via their index (a[0]), iterating with a for loop, and passing to functions to work with the elements.
