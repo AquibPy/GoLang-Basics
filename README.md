@@ -105,3 +105,29 @@ This is because in Go we don't have try catch block.
 **math/rand** -  It provides a pseudorandom number generator (PRNG) for generating non-cryptographically secure random numbers, suitable for general-purpose applications.
 
 **crypto/rand** - It provides a cryptographically secure pseudorandom number generator (CSPRNG) for generating unpredictable random numbers, suitable for security-sensitive applications like cryptography.
+
+# Memory Management in Go
+
+Go uses a tracing garbage collector to automatically manage memory. The garbage collector runs periodically in the background to free up unused memory. This means developers don't need to manually allocate or free memory. 
+
+There are three main functions for memory allocation and initialization in Go:
+
+- new() allocates memory for a type and returns a pointer. It is similar to malloc() in C. 
+
+- make() allocates and initializes memory for maps, slices, and channels by preallocating the underlying data structure.
+
+- delete() removes references to an object to allow it to be collected earlier by the garbage collector.
+
+The garbage collector runs concurrently so it doesn't block the program during collection. This helps ensure responsiveness. Developers can control memory by removing references with delete().
+
+## Pointers in Go
+
+Pointers in Go allow us to reference a memory location that stores a value of a particular type. We use pointers because sometimes we need to pass large structures by reference instead of by value for efficiency.
+
+In simple terms, a pointer contains the memory address of a value. We define a pointer using an asterisk (*) before the type. For example, a pointer to an int would be defined as *int. 
+
+We can create a pointer by using the address of (&) operator on a variable, which gives us the memory location of that variable. Then we can pass that pointer to functions to modify the original variable.
+
+Pointers are useful in Go because they let us modify values more efficiently for large data structures like slices, maps and channels that are passed by reference instead of copying by value. This avoids expensive copies of large amounts of data.
+
+So in summary, pointers allow passing references to data instead of copies, improving performance for large or complex values.
