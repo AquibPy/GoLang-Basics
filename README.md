@@ -99,3 +99,9 @@ Variable shadowing occurs when a variable declared in an inner scope has the sam
 
 In Go, the "comma ok" or "error ok" syntax is a way to check for successful operations and handle potential errors when using built-in functions or methods that return two values. The second value is typically a boolean or an error indicating whether the operation was successful or if an error occurred.
 This is because in Go we don't have try catch block.
+
+## Random Numbers
+
+**math/rand** -  It provides a pseudorandom number generator (PRNG) for generating non-cryptographically secure random numbers, suitable for general-purpose applications.
+
+**crypto/rand** - It provides a cryptographically secure pseudorandom number generator (CSPRNG) for generating unpredictable random numbers, suitable for security-sensitive applications like cryptography.
