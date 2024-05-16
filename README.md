@@ -1,5 +1,9 @@
 # Go Basics
 
+![Go Gopher][gopher_image]
+
+[gopher_image]: https://blog.golang.org/go-brand/Go-Logo/SVG/Go-Logo_Blue.svg
+
 This repository is designed to help beginners learn the fundamental concepts and syntax of the Go programming language. It contains a collection of examples and explanations covering various topics, including:
 
 - Hello World
