@@ -171,3 +171,43 @@ Arrays in Go are fixed-length sequences of elements of the same type. Some key p
    - Example: `s := make([]int, 3, 5)` creates a slice with a length of 3 and a capacity of 5.
 
 Slices are really handy because they let you work with collections of data easily, and they can change size to fit your needs.
+
+# Maps in Go
+
+In Go, a map is a built-in data structure that stores a collection of key-value pairs. It's like a dictionary or an associative array in other programming languages.
+
+## Key-Value Pairs
+
+- A map holds a collection of key-value pairs, where each key is unique within the map, and each key is associated with exactly one value.
+- Keys and values can be of any data type, as long as the key types and value types are consistent within the map. For example, you can have a map where keys are strings and values are integers.
+
+## Declaration and Initialization
+
+```go
+// Declaration and initialization using make()
+var myMap map[string]int
+myMap = make(map[string]int)
+
+// Declaration and initialization using a map literal
+anotherMap := map[string]int{"apple": 5, "banana": 3, "orange": 2}
+```
+## Accessing and Modifying Values
+
+```go
+// Accessing values
+value := myMap["key"]
+
+// Modifying values or adding new key-value pairs
+myMap["newKey"] = 10
+
+// Checking for key existence
+value, ok := myMap["key"]
+if ok {
+    fmt.Println("Value exists:", value)
+} else {
+    fmt.Println("Key does not exist")
+}
+
+// Deleting key-value pair
+delete(myMap, "key")
+```
