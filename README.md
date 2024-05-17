@@ -314,3 +314,58 @@ In Go, the ellipsis (`...`) is used in a few different contexts:
     Here, `nums...` unpacks the `nums` slice into individual arguments and passes them to `exampleFunc`.
 
 In all cases, the ellipsis (`...`) is a handy tool for dealing with variable numbers of arguments in functions and for manipulating slices.
+
+## Methods
+
+In Go, methods are functions that are associated with a particular type. They allow you to define behavior or actions that can be performed on values of that type. Here's a simple explanation:
+
+1. **Definition**:
+   - Methods are defined by specifying the receiver type before the function name.
+   - The receiver type is the type on which the method operates.
+
+2. **Usage**:
+   - Methods are called on values of the receiver type using the dot (`.`) notation.
+
+3. **Receiver Types**:
+   - Methods can be associated with any named type in Go, including built-in types, structs, and user-defined types.
+
+### Example:
+
+Let's say we have a struct called `Rectangle`:
+
+```go
+type Rectangle struct {
+    width  float64
+    height float64
+}
+```
+
+We can define a method called `Area` for the `Rectangle` type:
+
+```go
+func (r Rectangle) Area() float64 {
+    return r.width * r.height
+}
+```
+
+Here's what's happening in this code:
+
+- `func (r Rectangle) Area() float64 { ... }`:
+  - This defines a method named `Area` for the `Rectangle` type.
+  - `(r Rectangle)` specifies that `Area` is a method of the `Rectangle` type.
+  - `r` is the receiver variable, which represents the instance of `Rectangle` on which the method is called.
+  - `float64` is the return type of the method.
+
+Now, we can create a `Rectangle` instance and call its `Area` method:
+
+```go
+func main() {
+    rectangle := Rectangle{width: 10, height: 5}
+    area := rectangle.Area()
+    fmt.Println("Area:", area) // Output: Area: 50
+}
+```
+
+In this example, `rectangle.Area()` calculates the area of the `rectangle` instance using the `Area` method we defined earlier.
+
+Methods in Go provide a way to attach behaviors to types, making the code more organized and readable. They are widely used in Go for defining functionalities associated with structs and other types.
