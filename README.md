@@ -278,3 +278,39 @@ type Person struct {
 ```
 
 Structs are commonly used in Go to represent complex data types, such as users, products, or any other entity that has multiple properties. They provide a way to organize related data and make the code more readable and maintainable.
+
+## Ellipsis
+
+In Go, the ellipsis (`...`) is used in a few different contexts:
+
+1. **Variadic Functions**: When defining a function, you can use the ellipsis before the type of the last parameter to indicate that the function can accept a variable number of arguments of that type. These are called variadic functions.
+
+    ```go
+    func exampleFunc(nums ...int) {
+        // nums is a slice of int
+        for _, num := range nums {
+            fmt.Println(num)
+        }
+    }
+    ```
+
+    Here, `nums ...int` indicates that `exampleFunc` can accept zero or more `int` arguments.
+
+2. **Variadic Arguments**: When calling a variadic function, you can pass any number of arguments of the specified type, and Go will pack them into a slice.
+
+    ```go
+    exampleFunc(1, 2, 3, 4, 5)
+    ```
+
+    In this call, `1, 2, 3, 4, 5` will be packed into a slice of `int` and passed to `exampleFunc`.
+
+3. **Slices**: The ellipsis can also be used when passing a slice as arguments to a variadic function. It tells Go to unpack the slice and treat its elements as individual arguments.
+
+    ```go
+    nums := []int{1, 2, 3, 4, 5}
+    exampleFunc(nums...)
+    ```
+
+    Here, `nums...` unpacks the `nums` slice into individual arguments and passes them to `exampleFunc`.
+
+In all cases, the ellipsis (`...`) is a handy tool for dealing with variable numbers of arguments in functions and for manipulating slices.
