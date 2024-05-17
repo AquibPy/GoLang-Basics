@@ -369,3 +369,90 @@ func main() {
 In this example, `rectangle.Area()` calculates the area of the `rectangle` instance using the `Area` method we defined earlier.
 
 Methods in Go provide a way to attach behaviors to types, making the code more organized and readable. They are widely used in Go for defining functionalities associated with structs and other types.
+
+## Defer
+
+In Go, the `defer` statement is used to ensure that a function call is performed later in a program's execution, typically for purposes of cleanup. The deferred call is executed when the surrounding function returns, regardless of whether the function returns normally or because of a panic.
+
+### Key Points:
+
+1. **When to Use `defer`**:
+   - Often used for resource cleanup tasks, such as closing files or releasing locks.
+   - Ensures that the cleanup code is executed even if the function encounters an error or returns early.
+
+2. **Syntax**:
+   - The `defer` statement is placed before the function call that you want to defer.
+
+3. **Execution Order**:
+   - Deferred calls are executed in last-in, first-out (LIFO) order.
+
+### Example:
+
+Let's look at an example where `defer` is used to close a file:
+
+```go
+package main
+
+import (
+    "fmt"
+    "os"
+)
+
+func main() {
+    file, err := os.Open("example.txt")
+    if err != nil {
+        fmt.Println("Error opening file:", err)
+        return
+    }
+
+    // Ensure the file is closed when main function returns
+    defer file.Close()
+
+    // Do some operations with the file
+    fmt.Println("File opened successfully")
+}
+```
+
+### Explanation:
+
+1. **Opening a File**:
+   - `file, err := os.Open("example.txt")` attempts to open a file.
+   - If there is an error opening the file, it prints the error and returns early.
+
+2. **Deferring a Function Call**:
+   - `defer file.Close()` ensures that `file.Close()` is called when the `main` function returns, no matter where the return happens in the function.
+
+3. **Order of Execution**:
+   - If multiple `defer` statements are used, they are executed in reverse order of their appearance.
+
+### Multiple `defer` Example:
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("Start")
+
+    defer fmt.Println("Deferred 1")
+    defer fmt.Println("Deferred 2")
+    defer fmt.Println("Deferred 3")
+
+    fmt.Println("End")
+}
+```
+
+### Output:
+
+```
+Start
+End
+Deferred 3
+Deferred 2
+Deferred 1
+```
+
+### Explanation:
+
+- The `defer` statements are executed in reverse order when the `main` function returns, ensuring a predictable and controlled way to clean up resources or perform necessary final steps.
