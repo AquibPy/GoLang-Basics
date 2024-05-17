@@ -211,3 +211,70 @@ if ok {
 // Deleting key-value pair
 delete(myMap, "key")
 ```
+
+## Structs in Go
+
+In Go, a struct is a composite data type that groups together zero or more fields of different data types under a single name. It's like a record or a structure in other programming languages.
+
+## Definition
+
+- You define a struct using the `type` keyword followed by the struct's name and a list of its fields enclosed in curly braces `{}`.
+- Each field in the struct has a name and a data type.
+
+```go
+type Person struct {
+    name string
+    age  int
+}
+```
+
+## Creating Instances
+
+- You create instances (also known as objects or structs) of a struct by declaring variables of that struct type and initializing their fields.
+
+```go
+var p1 Person
+p1.name = "Alice"
+p1.age = 30
+
+p2 := Person{name: "Bob", age: 25}
+```
+
+## Accessing Fields
+
+- You can access fields of a struct using the dot (`.`) operator followed by the field name.
+
+```go
+fmt.Println(p1.name) // Output: Alice
+fmt.Println(p2.age)  // Output: 25
+```
+
+## Anonymous Structs
+
+- You can also create anonymous structs without specifying a name. These are useful for temporary data structures.
+
+```go
+p3 := struct {
+    name string
+    age  int
+}{"Charlie", 35}
+```
+
+## Embedding
+
+- You can embed one struct within another to create a hierarchy of data structures.
+
+```go
+type Address struct {
+    city    string
+    country string
+}
+
+type Person struct {
+    name    string
+    age     int
+    address Address
+}
+```
+
+Structs are commonly used in Go to represent complex data types, such as users, products, or any other entity that has multiple properties. They provide a way to organize related data and make the code more readable and maintainable.
