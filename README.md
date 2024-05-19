@@ -569,3 +569,105 @@ type User struct {
 - `Email` will only be included in JSON if it's not empty.
 
 This way, you can control how your Go structs are represented in JSON, including aliasing, omitting empty fields, and handling sensitive data.
+
+
+
+## What is `go mod`?
+
+`go mod` is a tool in the Go programming language used to manage dependencies (external packages or libraries your code relies on) and modules (a collection of related Go packages). It helps you keep track of which versions of dependencies you are using and makes it easier to share and collaborate on Go projects.
+
+## Basic Concepts
+
+- **Module**: A collection of Go packages stored in a directory with a `go.mod` file at its root.
+- **Dependencies**: Other Go modules your module needs to work.
+
+## Common `go mod` Commands
+
+Here are the essential `go mod` commands you'll use:
+
+1. **Initialize a New Module**
+   ```sh
+   go mod init <module-path>
+   ```
+   Creates a new `go.mod` file in the current directory. `<module-path>` is typically the URL of your module (e.g., `github.com/user/repo`).
+
+2. **Add a Dependency**
+   ```sh
+   go get <dependency>
+   ```
+   Adds a new dependency to your project. For example, `go get github.com/pkg/errors`.
+
+3. **Tidy Up Dependencies**
+   ```sh
+   go mod tidy
+   ```
+   Removes any dependencies that are not used in your code and adds any dependencies that are needed but not listed in `go.mod`.
+
+4. **Download Dependencies**
+   ```sh
+   go mod download
+   ```
+   Downloads the modules required by your project into the local cache.
+
+5. **Verify Dependencies**
+   ```sh
+   go mod verify
+   ```
+   Checks that the dependencies in your local cache have not been modified since they were downloaded.
+
+6. **Vendor Dependencies**
+   ```sh
+   go mod vendor
+   ```
+   Copies all dependencies into a `vendor` directory. This can be useful for projects that need to ensure all dependencies are stored locally (e.g., for deployment).
+
+7. **List Dependencies**
+   ```sh
+   go list -m all
+   ```
+   Lists all the modules your project depends on.
+
+8. **Graph Dependencies**
+   ```sh
+   go mod graph
+   ```
+   Displays a graph of module dependencies. This can help you understand how modules are related.
+
+9. **Edit go.mod Directly**
+   ```sh
+   go mod edit
+   ```
+   Provides commands to edit the `go.mod` file programmatically (e.g., adding or removing dependencies).
+
+10. **View Module Cache**
+    ```sh
+    go clean -modcache
+    ```
+    Cleans the module cache, removing all downloaded modules.
+
+## Example Workflow
+
+1. **Create a New Module**
+   ```sh
+   go mod init github.com/yourname/yourproject
+   ```
+
+2. **Add Dependencies**
+   ```sh
+   go get github.com/some/dependency
+   ```
+
+3. **Tidy Up Dependencies**
+   ```sh
+   go mod tidy
+   ```
+
+4. **Download All Dependencies**
+   ```sh
+   go mod download
+   ```
+
+5. **Verify Dependencies**
+   ```sh
+   go mod verify
+   ```
