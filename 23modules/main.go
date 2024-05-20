@@ -18,7 +18,7 @@ func main() {
 }
 
 func greeter() {
-	fmt.Println("Het there mod users")
+	fmt.Println("Hey there mod users")
 }
 
 func serveHome(w http.ResponseWriter, r *http.Request) {
