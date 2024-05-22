@@ -1,0 +1,107 @@
+definitions:
+  model.Netflix:
+    properties:
+      _id:
+        type: string
+      movie:
+        type: string
+      watched:
+        type: boolean
+    type: object
+info:
+  contact: {}
+paths:
+  /api/deleteallmovie:
+    delete:
+      consumes:
+      - application/json
+      description: Delete all movies from the watchlist
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Number of deleted movies
+          schema:
+            type: integer
+      summary: Delete all movies
+      tags:
+      - movies
+  /api/movie:
+    post:
+      consumes:
+      - application/json
+      description: Add a new movie to the watchlist
+      parameters:
+      - description: Movie to create
+        in: body
+        name: movie
+        required: true
+        schema:
+          $ref: '#/definitions/model.Netflix'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.Netflix'
+      summary: Create a movie
+      tags:
+      - movies
+  /api/movie/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a movie from the watchlist by ID
+      parameters:
+      - description: Movie ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Movie ID
+          schema:
+            type: string
+      summary: Delete a movie
+      tags:
+      - movies
+    put:
+      consumes:
+      - application/json
+      description: Update a movie's watched status to true
+      parameters:
+      - description: Movie ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Movie ID
+          schema:
+            type: string
+      summary: Mark a movie as watched
+      tags:
+      - movies
+  /api/movies:
+    get:
+      description: Get all movies from the watchlist
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Netflix'
+            type: array
+      summary: Get all movies
+      tags:
+      - movies
+swagger: "2.0"

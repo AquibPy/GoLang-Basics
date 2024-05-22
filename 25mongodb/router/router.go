@@ -3,6 +3,7 @@ package router
 import (
 	"github.com/AquibPy/mongoapi/controller"
 	"github.com/gorilla/mux"
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 func Router() *mux.Router {
@@ -12,6 +13,8 @@ func Router() *mux.Router {
 	router.HandleFunc("/api/movie/{id}", controller.MarkAsWatched).Methods("PUT")
 	router.HandleFunc("/api/movie/{id}", controller.DeleteOneMovie).Methods("DELETE")
 	router.HandleFunc("/api/deleteallmovie", controller.DeleteAllMovies).Methods("DELETE")
+
+	router.PathPrefix("/swagger/").Handler(httpSwagger.WrapHandler) // Serve Swagger UI
 
 	return router
 }

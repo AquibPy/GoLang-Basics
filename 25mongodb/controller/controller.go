@@ -100,14 +100,27 @@ func getAllMovies() []primitive.M {
 	return movies
 }
 
-// controller -file
 
+// @Summary Get all movies
+// @Description Get all movies from the watchlist
+// @Tags movies
+// @Produce  json
+// @Success 200 {array} model.Netflix
+// @Router /api/movies [get]
 func GetMyAllMovies(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/x-www-form-urlencode")
 	allMovies := getAllMovies()
 	json.NewEncoder(w).Encode(allMovies)
 }
 
+// @Summary Create a movie
+// @Description Add a new movie to the watchlist
+// @Tags movies
+// @Accept  json
+// @Produce  json
+// @Param movie body model.Netflix true "Movie to create"
+// @Success 201 {object} model.Netflix
+// @Router /api/movie [post]
 func CreateMovie(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/x-www-form-urlencode")
 	w.Header().Set("Allow-Control-Allow-Methods", "POST")
@@ -119,6 +132,14 @@ func CreateMovie(w http.ResponseWriter, r *http.Request) {
 
 }
 
+// @Summary Mark a movie as watched
+// @Description Update a movie's watched status to true
+// @Tags movies
+// @Accept  json
+// @Produce  json
+// @Param id path string true "Movie ID"
+// @Success 200 {string} string "Movie ID"
+// @Router /api/movie/{id} [put]
 func MarkAsWatched(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/x-www-form-urlencode")
 	w.Header().Set("Allow-Control-Allow-Methods", "PUT")
@@ -129,6 +150,14 @@ func MarkAsWatched(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(params["id"])
 }
 
+// @Summary Delete a movie
+// @Description Delete a movie from the watchlist by ID
+// @Tags movies
+// @Accept  json
+// @Produce  json
+// @Param id path string true "Movie ID"
+// @Success 200 {string} string "Movie ID"
+// @Router /api/movie/{id} [delete]
 func DeleteOneMovie(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/x-www-form-urlencode")
 	w.Header().Set("Allow-Control-Allow-Methods", "DELETE")
@@ -138,6 +167,13 @@ func DeleteOneMovie(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(params["id"])
 }
 
+// @Summary Delete all movies
+// @Description Delete all movies from the watchlist
+// @Tags movies
+// @Accept  json
+// @Produce  json
+// @Success 200 {integer} int "Number of deleted movies"
+// @Router /api/deleteallmovie [delete]
 func DeleteAllMovies(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/x-www-form-urlencode")
 	w.Header().Set("Allow-Control-Allow-Methods", "DELETE")
