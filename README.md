@@ -110,13 +110,13 @@ This is because in Go we don't have try catch block.
 
 **crypto/rand** - It provides a cryptographically secure pseudorandom number generator (CSPRNG) for generating unpredictable random numbers, suitable for security-sensitive applications like cryptography.
 
-# Memory Management in Go
+## Memory Management in Go
 
-Go uses a tracing garbage collector to automatically manage memory. The garbage collector runs periodically in the background to free up unused memory. This means developers don't need to manually allocate or free memory. 
+Go uses a tracing garbage collector to automatically manage memory. The garbage collector runs periodically in the background to free up unused memory. This means developers don't need to manually allocate or free memory.
 
 There are three main functions for memory allocation and initialization in Go:
 
-- new() allocates memory for a type and returns a pointer. It is similar to malloc() in C. 
+- new() allocates memory for a type and returns a pointer. It is similar to malloc() in C.
 
 - make() allocates and initializes memory for maps, slices, and channels by preallocating the underlying data structure.
 
@@ -457,7 +457,6 @@ Deferred 1
 
 - The `defer` statements are executed in reverse order when the `main` function returns, ensuring a predictable and controlled way to clean up resources or perform necessary final steps.
 
-
 # JSON Handling in Go:
 
 1. **Importing the JSON Package:**
@@ -570,8 +569,6 @@ type User struct {
 
 This way, you can control how your Go structs are represented in JSON, including aliasing, omitting empty fields, and handling sensitive data.
 
-
-
 ## What is `go mod`?
 
 `go mod` is a tool in the Go programming language used to manage dependencies (external packages or libraries your code relies on) and modules (a collection of related Go packages). It helps you keep track of which versions of dependencies you are using and makes it easier to share and collaborate on Go projects.
@@ -586,88 +583,414 @@ This way, you can control how your Go structs are represented in JSON, including
 Here are the essential `go mod` commands you'll use:
 
 1. **Initialize a New Module**
+
    ```sh
    go mod init <module-path>
    ```
+
    Creates a new `go.mod` file in the current directory. `<module-path>` is typically the URL of your module (e.g., `github.com/user/repo`).
 
 2. **Add a Dependency**
+
    ```sh
    go get <dependency>
    ```
+
    Adds a new dependency to your project. For example, `go get github.com/pkg/errors`.
 
 3. **Tidy Up Dependencies**
+
    ```sh
    go mod tidy
    ```
+
    Removes any dependencies that are not used in your code and adds any dependencies that are needed but not listed in `go.mod`.
 
 4. **Download Dependencies**
+
    ```sh
    go mod download
    ```
+
    Downloads the modules required by your project into the local cache.
 
 5. **Verify Dependencies**
+
    ```sh
    go mod verify
    ```
+
    Checks that the dependencies in your local cache have not been modified since they were downloaded.
 
 6. **Vendor Dependencies**
+
    ```sh
    go mod vendor
    ```
+
    Copies all dependencies into a `vendor` directory. This can be useful for projects that need to ensure all dependencies are stored locally (e.g., for deployment).
 
 7. **List Dependencies**
+
    ```sh
    go list -m all
    ```
+
    Lists all the modules your project depends on.
 
 8. **Graph Dependencies**
+
    ```sh
    go mod graph
    ```
+
    Displays a graph of module dependencies. This can help you understand how modules are related.
 
 9. **Edit go.mod Directly**
+
    ```sh
    go mod edit
    ```
+
    Provides commands to edit the `go.mod` file programmatically (e.g., adding or removing dependencies).
 
 10. **View Module Cache**
+
     ```sh
     go clean -modcache
     ```
+
     Cleans the module cache, removing all downloaded modules.
 
 ## Example Workflow
 
 1. **Create a New Module**
+
    ```sh
    go mod init github.com/yourname/yourproject
    ```
 
 2. **Add Dependencies**
+
    ```sh
    go get github.com/some/dependency
    ```
 
 3. **Tidy Up Dependencies**
+
    ```sh
    go mod tidy
    ```
 
 4. **Download All Dependencies**
+
    ```sh
    go mod download
    ```
 
 5. **Verify Dependencies**
+
    ```sh
    go mod verify
    ```
+
+
+
+### Go Concurrency Vs Parallelism
+
+| Feature       | Concurrency                                         | Parallelism                                         |
+|---------------|-----------------------------------------------------|-----------------------------------------------------|
+| **Definition**| Managing multiple tasks at once, pausing and resuming| Executing multiple tasks simultaneously             |
+| **Example**   | One chef cooking by alternating between tasks        | Two chefs cooking different tasks at the same time  |
+| **Focus**     | Structure and design of tasks                       | Actual execution of tasks                           |
+| **Mechanism** | Goroutines in Go                                     | Multiple CPU cores                                  |
+| **Goal**      | Improve responsiveness and structure                | Improve execution speed                             |
+
+</br>
+
+![Concurrency Vs Parallelism](https://www.freecodecamp.org/news/content/images/2022/12/1-1.png)
+
+### Concurrency
+
+- **Definition**: Concurrency is about dealing with multiple tasks at once by managing the execution of these tasks in a way that they can be paused and resumed. It's about the structure and design of a program.
+- **Example**: Imagine you are cooking a meal. You can start boiling water, then while the water is boiling, you start chopping vegetables. You are not doing both tasks at the exact same time, but you are handling multiple tasks by switching between them.
+- **In Go**: Go achieves concurrency using Goroutines. A Goroutine is a lightweight thread managed by the Go runtime. When you launch a Goroutine using the `go` keyword, it runs concurrently with other Goroutines.
+
+   ```go
+   package main
+
+   import (
+      "fmt"
+      "time"
+   )
+
+   func sayHello() {
+      for i := 0; i < 5; i++ {
+         time.Sleep(100 * time.Millisecond)
+         fmt.Println("Hello")
+      }
+   }
+
+   func sayWorld() {
+      for i := 0; i < 5; i++ {
+         time.Sleep(100 * time.Millisecond)
+         fmt.Println("World")
+      }
+   }
+
+   func main() {
+      go sayHello()
+      go sayWorld()
+      time.Sleep(1 * time.Second)
+   }
+   ```
+
+In this example, `sayHello` and `sayWorld` run concurrently.
+
+### Parallelism
+
+- **Definition**: Parallelism is about executing multiple tasks at the exact same time. It's about the actual execution of tasks.
+- **Example**: Imagine you have two chefs in the kitchen. One chef is boiling water while the other chef is chopping vegetables. Both tasks are being done simultaneously.
+- **In Go**: Parallelism is achieved when the program runs on multiple processors or cores, allowing multiple Goroutines to run at the same time.
+
+   ```go
+   package main
+
+   import (
+      "fmt"
+      "runtime"
+      "sync"
+   )
+
+   func main() {
+      runtime.GOMAXPROCS(2) // Set the maximum number of CPUs that can be executing simultaneously
+
+      var wg sync.WaitGroup
+      wg.Add(2)
+
+      go func() {
+         defer wg.Done()
+         for i := 0; i < 5; i++ {
+            fmt.Println("Hello")
+         }
+      }()
+
+      go func() {
+         defer wg.Done()
+         for i := 0; i < 5; i++ {
+            fmt.Println("World")
+         }
+      }()
+
+      wg.Wait()
+   }
+   ```
+
+In this example, by setting `GOMAXPROCS` to 2, we are allowing the program to use two CPU cores, which can run Goroutines in parallel.
+
+### Summary
+
+- **Concurrency** is about managing multiple tasks and making progress on them.
+- **Parallelism** is about executing multiple tasks at the same time.
+- Go uses **Goroutines** for concurrency.
+- Go can achieve **parallelism** if there are multiple CPU cores available.
+
+# Sync in Go Lang
+
+Synchronization is a crucial concept in concurrent programming, including in Go. It ensures that multiple Goroutines can safely access shared resources without causing data races or other issues. Go provides several synchronization mechanisms in its `sync` package. Let's go through the most commonly used synchronization tools in Go:
+
+## WaitGroup
+
+A `WaitGroup` waits for a collection of Goroutines to finish. You can add the number of Goroutines to wait for using `Add`, and each Goroutine calls `Done` when it finishes. The `Wait` method blocks until all Goroutines have finished.
+
+### Example:
+
+```go
+   package main
+
+   import (
+      "fmt"
+      "sync"
+   )
+
+   func worker(id int, wg *sync.WaitGroup) {
+      defer wg.Done() // Mark this Goroutine as done when it finishes
+      fmt.Printf("Worker %d starting\n", id)
+      // Simulate work with Sleep
+      fmt.Printf("Worker %d done\n", id)
+   }
+
+   func main() {
+      var wg sync.WaitGroup
+
+      for i := 1; i <= 3; i++ {
+         wg.Add(1) // Increment the WaitGroup counter
+         go worker(i, &wg)
+      }
+
+      wg.Wait() // Wait for all Goroutines to finish
+   }
+```
+
+### Mutex
+
+A `Mutex` is used to provide mutual exclusion, allowing only one Goroutine to access a critical section of code at a time. This prevents data races when multiple Goroutines read and write shared variables.
+
+#### Example:
+
+```go
+   package main
+
+   import (
+      "fmt"
+      "sync"
+   )
+
+   var (
+      counter int
+      mu      sync.Mutex
+   )
+
+   func increment(wg *sync.WaitGroup) {
+      defer wg.Done()
+      mu.Lock()
+      counter++
+      mu.Unlock()
+   }
+
+   func main() {
+      var wg sync.WaitGroup
+
+      for i := 0; i < 1000; i++ {
+         wg.Add(1)
+         go increment(&wg)
+      }
+
+      wg.Wait()
+      fmt.Println("Counter:", counter)
+   }
+```
+
+### RWMutex
+
+A `RWMutex` is a reader/writer mutual exclusion lock. It allows multiple readers or one writer, but not both. This is useful when you have frequent reads and infrequent writes.
+
+#### Example:
+
+```go
+   package main
+
+   import (
+      "fmt"
+      "sync"
+   )
+
+   var (
+      counter int
+      rwMu    sync.RWMutex
+   )
+
+   func read(wg *sync.WaitGroup) {
+      defer wg.Done()
+      rwMu.RLock()
+      defer rwMu.RUnlock()
+      fmt.Println("Counter value:", counter)
+   }
+
+   func write(wg *sync.WaitGroup) {
+      defer wg.Done()
+      rwMu.Lock()
+      counter++
+      rwMu.Unlock()
+   }
+
+   func main() {
+      var wg sync.WaitGroup
+
+      for i := 0; i < 10; i++ {
+         wg.Add(1)
+         go write(&wg)
+      }
+
+      for i := 0; i < 10; i++ {
+         wg.Add(1)
+         go read(&wg)
+      }
+
+      wg.Wait()
+   }
+```
+
+### Cond
+
+A `Cond` is used for broadcast signaling between Goroutines. It's useful for implementing higher-level synchronization patterns.
+
+#### Example:
+
+```go
+   package main
+
+   import (
+      "fmt"
+      "sync"
+   )
+
+   type Queue struct {
+      items []int
+      cond  *sync.Cond
+   }
+
+   func (q *Queue) Enqueue(item int) {
+      q.cond.L.Lock()
+      q.items = append(q.items, item)
+      q.cond.Signal()
+      q.cond.L.Unlock()
+   }
+
+   func (q *Queue) Dequeue() int {
+      q.cond.L.Lock()
+      for len(q.items) == 0 {
+         q.cond.Wait()
+      }
+      item := q.items[0]
+      q.items = q.items[1:]
+      q.cond.L.Unlock()
+      return item
+   }
+
+   func main() {
+      queue := &Queue{
+         cond: sync.NewCond(&sync.Mutex{}),
+      }
+
+      var wg sync.WaitGroup
+      wg.Add(2)
+
+      go func() {
+         defer wg.Done()
+         for i := 0; i < 5; i++ {
+            queue.Enqueue(i)
+            fmt.Printf("Enqueued: %d\n", i)
+         }
+      }()
+
+      go func() {
+         defer wg.Done()
+         for i := 0; i < 5; i++ {
+            item := queue.Dequeue()
+            fmt.Printf("Dequeued: %d\n", item)
+         }
+      }()
+
+      wg.Wait()
+   }
+```
+
+### Summary
+
+- **WaitGroup**: Waits for a group of Goroutines to finish.
+- **Mutex**: Ensures mutual exclusion, allowing only one Goroutine to access a critical section.
+- **RWMutex**: Allows multiple readers or one writer.
+- **Cond**: Used for signaling and broadcasting conditions between Goroutines.
+
+These synchronization tools help you manage concurrent Goroutines and ensure safe access to shared resources.
